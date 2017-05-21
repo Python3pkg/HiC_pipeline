@@ -102,7 +102,7 @@ class cHiCdataset(HiCdataset):
 
         self.h5dict = h5dict(self.filename, mode = mode, in_memory = inMemory)
         
-        if 'chrms1' in self.h5dict.keys():
+        if 'chrms1' in list(self.h5dict.keys()):
             chrms1 = self.chrms1
             self.DSnum = self.N = len(chrms1)
     
@@ -316,7 +316,7 @@ class cHiCdataset(HiCdataset):
             # print metadatas
             newMetadata = metadatas.pop()
             for oldData in metadatas:
-                for key, value in oldData.items():
+                for key, value in list(oldData.items()):
                     if (key in newMetadata):
                         newMetadata[key] += value
                     else:
@@ -325,9 +325,9 @@ class cHiCdataset(HiCdataset):
             self.metadata = newMetadata
             self.h5dict["metadata"] = self.metadata
 
-        for name in self.vectors.keys():
+        for name in list(self.vectors.keys()):
             res = []
-            IfIn = [(name in mydict.keys()) for mydict in h5dicts]
+            IfIn = [(name in list(mydict.keys())) for mydict in h5dicts]
             if not all(IfIn):
                 continue
             for mydict in h5dicts:
@@ -488,7 +488,7 @@ class cHiCdataset(HiCdataset):
         # DS = self.DS  # 13 bytes per read up to now, 16 total
         mydict = h5dict(filename)
 
-        for chrom in xrange(self.genome.chrmCount):
+        for chrom in range(self.genome.chrmCount):
             if includeTrans == True:
                 mask = ((chr1 == chrom) + (chr2 == chrom))
             else:
@@ -507,7 +507,7 @@ class cHiCdataset(HiCdataset):
                 p1 = p1[args]
                 p2 = p2[args]
 
-            for chrom2 in xrange(chrom, self.genome.chrmCount):
+            for chrom2 in range(chrom, self.genome.chrmCount):
                 if (includeTrans == False) and (chrom2 != chrom):
                     continue
                 start = np.searchsorted(c2, chrom2, "left")
@@ -547,10 +547,10 @@ class cHiCdataset(HiCdataset):
         
         counts = np.bincount(label, minlength=numBins ** 2)
         if len(counts) > numBins ** 2:
-            raise StandardError("\nHeatMap exceed length of the genome!")
+            raise Exception("\nHeatMap exceed length of the genome!")
 
         counts.shape = (numBins, numBins)
-        for i in xrange(len(counts)):
+        for i in range(len(counts)):
             counts[i, i:] += counts[i:, i]
             counts[i:, i] = counts[i, i:]
         if countDiagonalReads.lower() == "once":
@@ -567,7 +567,7 @@ class cHiCdataset(HiCdataset):
         
         Keys = ['LeftType', 'RightType', 'InnerType', 'OuterType']
         if not all([(i in self.h5dict for i in Keys)]):
-            raise StandardError
+            raise Exception
         
         LeftType = self.h5dict['LeftType'][:25]
         RightType = self.h5dict['RightType'][:25]
@@ -612,7 +612,7 @@ class cHiCdataset(HiCdataset):
         
         Keys = ['extD', 'extLen', 'extSpace']
         if not all([(i in self.h5dict for i in Keys)]):
-            raise StandardError
+            raise Exception
         
         extD = self.h5dict['extD']
         extLen = self.h5dict['extLen']
@@ -657,7 +657,7 @@ class cHiCdataset(HiCdataset):
         if x == 'vectors':
             return object.__setattr__(self, x, value)
 
-        if x in self.vectors.keys():
+        if x in list(self.vectors.keys()):
             self._setData(x, value)
         else:
             return object.__setattr__(self, x, value)
@@ -667,7 +667,7 @@ class cHiCdataset(HiCdataset):
         if x == 'vectors':
             return object.__getattribute__(self, x)
 
-        if x in self.vectors.keys():
+        if x in list(self.vectors.keys()):
             a = self._getData(x)
             return a
         else:

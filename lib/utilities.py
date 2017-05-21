@@ -253,14 +253,14 @@ def splitSRA(filename, folder, splitBy = 4000000):
 
     halted = False
     counters = []
-    for counter in xrange(1000000):
+    for counter in range(1000000):
 
         outProc1 = gzipWriter(os.path.join(folder, outFile).format(counter, 1))
         outProc2 = gzipWriter(os.path.join(folder, outFile).format(counter, 2))
         outStream1 = outProc1.stdin
         outStream2 = outProc2.stdin
 
-        for j in xrange(splitBy):
+        for j in range(splitBy):
 
             line = inStream.readline()
 
@@ -307,12 +307,12 @@ def splitSingleFastq(filename, folder, splitBy = 4000000):
 
     halted = False
     counters = []
-    for counter in xrange(1000000):
+    for counter in range(1000000):
 
         outProc1 = gzipWriter(os.path.join(folder, outFile).format(counter, parse[-1]))
         outStream1 = outProc1.stdin
 
-        for j in xrange(splitBy):
+        for j in range(splitBy):
 
             line = inStream.readline()
 

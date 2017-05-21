@@ -11,7 +11,7 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 if (sys.version_info.major != 2) or (sys.version_info.minor < 6):
-    print 'PYTHON VERSION MUST BE 2.6 or 2.7. YOU ARE CURRENTLY USING PYTHON ' + sys.version
+    print('PYTHON VERSION MUST BE 2.6 or 2.7. YOU ARE CURRENTLY USING PYTHON ' + sys.version)
     sys.exit(2)
 
 # Guarantee Unix Format
